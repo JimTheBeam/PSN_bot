@@ -1,19 +1,15 @@
 from bs4 import BeautifulSoup
 import logging
 import requests
-import yaml
+# import yaml
 
-from pprint import pprint
+# from ..bot import logger
+from config import Config
+# from pprint import pprint
 
-try:
-    stream = open('config.yaml', 'r')
-except FileNotFoundError:
-    print('File not found!')
-except PermissionError:
-    print('Permission error!')
-data = yaml.safe_load(stream)
-URL_PS4 = data.get('psprices_config').get('URL').get('PS4')
-HEADERS = data.get('psprices_config').get('HEADERS')
+URL_PS4 = Config.URL_PS4
+HEADERS = Config.HEADERS
+
 print(URL_PS4)
 print(HEADERS)
 # pprint(data)
