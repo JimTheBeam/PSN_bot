@@ -26,4 +26,5 @@ class Config(object):
     BOT_TOKEN = data.get('bot_config').get('BOT_TOKEN')
     URL_PS4 = data.get('psprices_config').get('URL').get('PS4')
     URL_PS5 = data.get('psprices_config').get('URL').get('PS5')
+    ABS_URL = data.get('psprices_config').get('URL').get('ABS_URL')
     HEADERS = data.get('psprices_config').get('HEADERS')
