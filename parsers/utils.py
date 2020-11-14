@@ -50,10 +50,6 @@ def get_content(html):
             'current_price': get_current_price(item),
             'plus_price': get_plus_price(item),
             'old_price': get_old_price(item),
-            'image_link': item.find('img', class_='game-card--image loaded')
+            'image_link': item.find('img', class_='game-card--image').get('content')
         })
 
-    pprint(games)
-    
-    
-    
