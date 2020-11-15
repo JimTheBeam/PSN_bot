@@ -27,4 +27,5 @@ class Config(object):
     URL_PS4 = data.get('psprices_config').get('URL').get('PS4')
     URL_PS5 = data.get('psprices_config').get('URL').get('PS5')
     ABS_URL = data.get('psprices_config').get('URL').get('ABS_URL')
+    GAMES_URL = data.get('psprices_config').get('URL').get('GAMES_URL')
     HEADERS = data.get('psprices_config').get('HEADERS')

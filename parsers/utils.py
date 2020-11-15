@@ -59,9 +59,12 @@ def get_psprices_link(item):
 
 
 def get_pages_count(html):
+    """finds last page number[int] from first page and return its"""
     soup = BeautifulSoup(html, 'html.parser')
-    pagination = soup.find('div', class_='pagination')
-    
+    pagination = soup.find('ul', class_='pagination')
+    last_page_link = pagination.find('li', class_='last').find('a').get('href')
+    last_page_number = int(last_page_link.split('page=')[-1])
+    return last_page_number
 
 
 def get_content(html):
@@ -79,6 +82,6 @@ def get_content(html):
             'discount_end_date': get_discount_end_date(item),
             'psprices_link': get_psprices_link(item)
         })
-    
-    pprint(games)
+    # pprint(games)
+    return games
 
