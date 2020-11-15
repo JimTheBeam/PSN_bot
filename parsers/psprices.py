@@ -30,9 +30,10 @@ def parse_main_page(url, platform='PS4'):
             html = get_html(url=url, headers=HEADERS, params={'platform': platform,'page': page})
             games.extend(get_content(html.text))
             # sleep()
+            # TODO: save in db
         print(len(games))
     else:
         print('Error')
     
 if __name__ == "__main__":
-    parse_main_page(url=GAMES_URL, platform='PS5')
+    parse_main_page(url=GAMES_URL, platform='PS4')

@@ -82,6 +82,5 @@ def get_content(html):
             'discount_end_date': get_discount_end_date(item),
             'psprices_link': get_psprices_link(item)
         })
-    # pprint(games)
     return games
 
