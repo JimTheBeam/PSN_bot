@@ -80,7 +80,8 @@ def get_content(html):
             'old_price': get_old_price(item),
             'image_link': item.find('img', class_='game-card--image').get('content'),
             'discount_end_date': get_discount_end_date(item),
-            'psprices_link': get_psprices_link(item)
+            'psprices_url': get_psprices_link(item)
         })
+        print('current_price:', get_current_price(item))
     return games
 

@@ -29,3 +29,9 @@ class Config(object):
     ABS_URL = data.get('psprices_config').get('URL').get('ABS_URL')
     GAMES_URL = data.get('psprices_config').get('URL').get('GAMES_URL')
     HEADERS = data.get('psprices_config').get('HEADERS')
+
+    START_DB_NAME = data.get('database_config').get('START_DB_NAME')
+    DB_NAME = data.get('database_config').get('DB_NAME')
+    DB_USER = data.get('database_config').get('DB_USER')
+    DB_HOST = data.get('database_config').get('DB_HOST')
+    DB_PASSWORD = data.get('database_config').get('DB_PASSWORD')
