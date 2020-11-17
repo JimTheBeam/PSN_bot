@@ -2,8 +2,8 @@ from bs4 import BeautifulSoup
 import logging
 import requests
 
+from db.work_with_db import insert_game_in_games
 from config import Config
-from pprint import pprint
 
 def get_html(url, headers=None, params=None):
     r = requests.get(url, headers=headers, params=params)
@@ -70,10 +70,10 @@ def get_pages_count(html):
 def get_content(html):
     soup = BeautifulSoup(html, 'html.parser')
     items = soup.find_all('div', class_='col-6 col-sm-4 col-md-3 col-lg-3 col-xl-2')
-
+    # FIXME: need to del list 'games'
     games = []
     for item in items:
-        games.append({
+        game = {
             'title': item.find('span', class_='title').get_text(),
             'current_price': get_current_price(item),
             'plus_price': get_plus_price(item),
@@ -81,7 +81,10 @@ def get_content(html):
             'image_link': item.find('img', class_='game-card--image').get('content'),
             'discount_end_date': get_discount_end_date(item),
             'psprices_url': get_psprices_link(item)
-        })
-        print('current_price:', get_current_price(item))
+        }
+        games.append(game)
+
+        # save game to db:
+        insert_game_in_games(game)
     return games
 

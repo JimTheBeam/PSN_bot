@@ -25,6 +25,7 @@ def create_db():
     conn.close()
 
 
+# TODO: game id is not unique need to find another point
 def create_table_games():
     """create table games"""
     conn = psycopg2.connect(
@@ -32,13 +33,13 @@ def create_table_games():
     cur = conn.cursor()
     sql = '''CREATE TABLE games (
         game_id BIGSERIAL PRIMARY KEY,
-        title VARCHAR(150) UNIQUE NOT NULL,
-        current_price VARCHAR(50) NOT NULL,
+        title VARCHAR(150) NOT NULL,
+        current_price VARCHAR(50),
         plus_price VARCHAR(50),
         old_price VARCHAR(50),
         image_link VARCHAR(200) NOT NULL,
         discount_end_date VARCHAR(50),
-        psprices_url VARCHAR(200),
+        psprices_url VARCHAR(200) UNIQUE,
         created_time TIMESTAMP,
         updated_time TIMESTAMP
         );
@@ -48,7 +49,9 @@ def create_table_games():
     cur.close()
     conn.close()
     print('created table games successfully')
-    
+
+
+# TODO: write a trigger for auto update column 'updated_time'  
 
 
 if __name__ == "__main__":
