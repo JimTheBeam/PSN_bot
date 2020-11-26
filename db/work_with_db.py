@@ -30,3 +30,21 @@ def insert_game_in_games(game):
     conn.commit()
     cur.close()
     conn.close()
+
+
+def find_game(game_name):
+    """find game in table games
+       return game data from db"""
+    
+    conn = psycopg2.connect(
+        dbname=DB_NAME, user=USER, host=HOST, password=PASSWORD)
+    cur = conn.cursor()
+    sql = '''SELECT current_price, plus_price, old_price, 
+             image_link, discount_end_date, psprices_url FROM games WERE title = %s;'''
+    cur.execute(sql, (game_name,))
+    game_data = cur.fetchone()
+    cur.close()
+    conn.close()
+    # if not game_data:
+        # return None
+    return game_data

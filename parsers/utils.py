@@ -84,6 +84,7 @@ def get_content(html):
         }
         games.append(game)
 
+        # FIXME: вынести сохранение в ДБ отдельно
         # save game to db:
         insert_game_in_games(game)
     return games
