@@ -36,7 +36,10 @@ def return_game(update: Update, context: CallbackContext) -> None:
     """find a game in db by game's name"""
     game_name = update.message.text
     game = find_game_in_db(game_name)
-    update.message.reply_text(game)
+    if game is None:
+        return update.message.reply_text('Not found')
+    print(game)
+    update.message.reply_text('game price: ' + game[0])
 
 
 def error_message(update: Update, context: CallbackContext) -> None:
