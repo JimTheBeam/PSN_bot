@@ -41,13 +41,15 @@ def return_game(update: Update, context: CallbackContext) -> None:
         return update.message.reply_text(f'Not found game: {game_name_from_user}')
 
     game_text = create_game_text(game)
-    # chat = update.message.chat
     game_photo_link = game[4]
+    if game_photo_link is None:
+        return context.bot.send_message(chat_id=update.effective_chat.id,
+                                        text=game_text, parse_mode='MarkdownV2')
     context.bot.send_photo(
                         chat_id=update.effective_chat.id,
                         photo=game_photo_link,
-                        caption=game_text)
-    # update.message.reply_text(game_text)
+                        caption=game_text,
+                        parse_mode='MarkdownV2')
 
 
 def error_message(update: Update, context: CallbackContext) -> None:
