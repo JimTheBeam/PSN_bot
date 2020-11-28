@@ -39,8 +39,8 @@ def find_game(game_name):
     conn = psycopg2.connect(
         dbname=DB_NAME, user=USER, host=HOST, password=PASSWORD)
     cur = conn.cursor()
-    sql = '''SELECT current_price, plus_price, old_price, 
-             image_link, discount_end_date, psprices_url FROM games WHERE title=%s;'''
+    sql = '''SELECT title, current_price, plus_price, old_price, 
+             image_link, discount_end_date, psprices_url FROM games WHERE LOWER(title)=LOWER(%s);'''
     cur.execute(sql, (game_name,))
     game_data = cur.fetchone()
     cur.close()

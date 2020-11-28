@@ -7,6 +7,7 @@ from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, Callb
 
 from config import Config
 from db.work_with_db import find_game as find_game_in_db
+from utils import create_game_text
 
 
 if not os.path.exists('logs'):
@@ -34,12 +35,19 @@ def help_command(update: Update, context: CallbackContext) -> None:
 
 def return_game(update: Update, context: CallbackContext) -> None:
     """find a game in db by game's name"""
-    game_name = update.message.text
-    game = find_game_in_db(game_name)
+    game_name_from_user = update.message.text
+    game = find_game_in_db(game_name_from_user)
     if game is None:
-        return update.message.reply_text('Not found')
-    print(game)
-    update.message.reply_text('game price: ' + game[0])
+        return update.message.reply_text(f'Not found game: {game_name_from_user}')
+
+    game_text = create_game_text(game)
+    # chat = update.message.chat
+    game_photo_link = game[4]
+    context.bot.send_photo(
+                        chat_id=update.effective_chat.id,
+                        photo=game_photo_link,
+                        caption=game_text)
+    # update.message.reply_text(game_text)
 
 
 def error_message(update: Update, context: CallbackContext) -> None:
