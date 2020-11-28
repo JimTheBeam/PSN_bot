@@ -1,5 +1,5 @@
 def create_game_text(game):
-    """create game text for user using data from database
+    """create game text for user using game data from database
     formats text as markdownV2 style:
             *bold text*
             _italic text_
