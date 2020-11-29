@@ -15,7 +15,7 @@ DB_NAME = Config.DB_NAME
 
 
 def create_db():
-    """create database psn_db"""
+    '''create database psn_db'''
     conn = psycopg2.connect(
         dbname=START_DB_NAME, user=USER, host=HOST, password=PASSWORD)
     conn.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
@@ -27,7 +27,7 @@ def create_db():
 
 # TODO: game id is not unique need to find another point
 def create_table_games():
-    """create table games"""
+    '''create table games'''
     conn = psycopg2.connect(
         dbname=DB_NAME, user=USER, host=HOST, password=PASSWORD)
     cur = conn.cursor()
@@ -50,11 +50,10 @@ def create_table_games():
     conn.close()
     print('created table games successfully')
 
-
 # TODO: write a trigger for auto update column 'updated_time'  
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     try:
         create_db()
         print('created db')
