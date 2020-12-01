@@ -1,11 +1,12 @@
 from db.work_with_db import find_game as find_game_in_db
-from utils import create_game_text
-from keyboards.game_keyboard import game_keyboard
+from db.user.db_user import is_user_subscribed_game
 
+from keyboards.game_keyboard import game_keyboard
+from utils import create_game_text
 
 
 def return_game(update, context):
-    """find a game in db by game's name"""
+    '''find a game in db by game's name'''
     game_name_from_user = update.message.text
     game = find_game_in_db(game_name_from_user)
     if game is None:
@@ -20,7 +21,17 @@ def return_game(update, context):
     if psprices_url is None:
         keyboard = None
     else:
-        keyboard = game_keyboard(psn_link=psprices_url, subscription=True)
+        subscription = is_user_subscribed_game(
+                        chat_id=update.effective_chat.id,
+                        game_name=game[0])
+        if subscription is None:
+            subscription = False
+        else:
+            subscription = True
+
+        keyboard = game_keyboard(psn_link=psprices_url, subscription=subscription)
+
+
     context.bot.send_photo(
                         chat_id=update.effective_chat.id,
                         photo=game_photo_link,
