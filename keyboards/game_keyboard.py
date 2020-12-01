@@ -7,7 +7,6 @@ def game_keyboard(psn_link, subscription):
     :psn_link: str
     return keyboard for a single game
     '''
-    print(psn_link)
     psn_button = InlineKeyboardButton('PSN link', url=psn_link)
     # subscription_button = [InlineKeyboardButton]
     keyboard = InlineKeyboardMarkup([[psn_button]])

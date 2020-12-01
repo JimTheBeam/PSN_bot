@@ -19,19 +19,21 @@ logger = logging.getLogger(__name__)
 logger.info('bot startup')
 
 
-def start(update: Update, context: CallbackContext) -> None:
+def start(update, context):
     """Send a message when the command /start is issued."""
+    chat_id = update.message
+    print(chat_id)
     text = 'send me name of the game'
     update.message.reply_text(text)
 
 
-def help_command(update: Update, context: CallbackContext) -> None:
+def help_command(update, context):
     """Send a message when the command /help is issued."""
     text = 'Hello from psn bot! \npress /start for start'
     update.message.reply_text(text)
 
 
-def error_message(update: Update, context: CallbackContext) -> None:
+def error_message(update, context):
     """error message when user sent unapropriate data(sticker/foto/etc)."""
     text = 'I don\'t understand you try again \n press /help'
     update.message.reply_text(text)

@@ -1,12 +1,12 @@
-from migration_utils import create_table
+from migration_utils import execute_sql
 
 
 # create table user_games
 if __name__ == "__main__":
     sql = '''CREATE TABLE user_games (
-        user_id INT REFERENCES users,
-        game_id INT REFERENCES games,        
-        created_time TIMESTAMP
+        user_id INT REFERENCES users (id) ON DELETE CASCADE,
+        game_id INT REFERENCES games ON DELETE CASCADE,        
+        created_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         );
         '''
-    create_table(sql)
+    execute_sql(sql)

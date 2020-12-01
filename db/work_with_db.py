@@ -1,14 +1,16 @@
 import psycopg2
 
-import sys
-sys.path.append('..')
-from PSN_bot.config import Config
+from config import Config
 
 
 USER = Config.DB_USER
 HOST = Config.DB_HOST
 PASSWORD = Config.DB_PASSWORD
 DB_NAME = Config.DB_NAME
+
+# import sys
+# sys.path.append('..')
+# from PSN_bot.db.db_utils import *
 
 
 def insert_game_in_games(game):

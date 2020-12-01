@@ -1,4 +1,4 @@
-from migration_utils import create_table
+from migration_utils import execute_sql
 
 
 # create table users
@@ -9,5 +9,5 @@ if __name__ == "__main__":
         created_time TIMESTAMP
         );
         '''
-    create_table(sql)
+    execute_sql(sql)
     

@@ -11,12 +11,15 @@ PASSWORD = Config.DB_PASSWORD
 DB_NAME = Config.DB_NAME
 
 
-def execute_sql(sql):
-    '''execute one sql query'''
+def insert_user(chat_id):
+    '''insert chat_id into users table'''
     conn = psycopg2.connect(
         dbname=DB_NAME, user=USER, host=HOST, password=PASSWORD)
     cur = conn.cursor()
-    cur.execute(sql)
+    sql = '''INSERT INTO users (chat_id)
+    VALUES (%s)
+    '''
+    cur.execute(sql, (chat_id,))
     conn.commit()
     cur.close()
     conn.close()
