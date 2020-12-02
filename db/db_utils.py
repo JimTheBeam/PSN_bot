@@ -9,16 +9,9 @@ sys.path.append(path_to_parent_dir)
 from config import Config
 
 
-START_DB_NAME = Config.START_DB_NAME
-USER = Config.DB_USER
-HOST = Config.DB_HOST
-PASSWORD = Config.DB_PASSWORD
-DB_NAME = Config.DB_NAME
-
-
 # TODO: add exeptions
 def execute_sql(sql):
-    '''execute one sql query'''
+    '''execute and commit one sql query'''
     conn = psycopg2.connect(
         dbname=Config.DB_NAME, user=Config.DB_USER, host=Config.DB_HOST, password=Config.DB_PASSWORD)
     cur = conn.cursor()
@@ -30,7 +23,7 @@ def execute_sql(sql):
 
 # TODO: add exeptions
 def execute_sql_with_data(sql, data):
-    '''execute one sql query
+    '''execute and commit one sql query with data 
     :sql: <str> sql query
     :data: <tuple> data for sql query'''
     conn = psycopg2.connect(

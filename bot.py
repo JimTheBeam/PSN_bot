@@ -3,10 +3,11 @@ import logging
 import os
 
 from telegram import Update
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext
+from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters, 
+                          CallbackContext, CallbackQueryHandler)
 
 from config import Config
-from bot_logic import return_game
+from bot_logic import return_game, inline_button_pressed
 
 from bot_commands import start_command, help_command, error_message
 
@@ -31,6 +32,8 @@ def main():
     dp.add_handler(CommandHandler("help", help_command))
 
     dp.add_handler(MessageHandler(Filters.text, return_game))
+
+    dp.add_handler(CallbackQueryHandler(inline_button_pressed))
 
     dp.add_handler(MessageHandler(Filters.all, error_message))
 

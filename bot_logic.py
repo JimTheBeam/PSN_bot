@@ -38,3 +38,11 @@ def return_game(update, context):
                         caption=game_text,
                         parse_mode='MarkdownV2',
                         reply_markup=keyboard)
+
+
+
+def inline_button_pressed(update, context):
+    query = update.callback_query
+    query.answer()
+
+    query.edit_message_caption(caption=f"Selected option: {query.data}")
