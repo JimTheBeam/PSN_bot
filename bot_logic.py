@@ -1,4 +1,4 @@
-from db.work_with_db import find_game as find_game_in_db
+from db.db_game import find_game as find_game_in_db
 from db.user.db_user import is_user_subscribed_game
 
 from keyboards.game_keyboard import game_keyboard
