@@ -70,7 +70,6 @@ def get_pages_count(html):
 def get_content(html):
     soup = BeautifulSoup(html, 'html.parser')
     items = soup.find_all('div', class_='col-6 col-sm-4 col-md-3 col-lg-3 col-xl-2')
-    # FIXME: need to del list 'games'
     games = []
     for item in items:
         game = {
