@@ -1,8 +1,8 @@
 from db.db_game import find_game as find_game_in_db
-from db.user.db_user import is_user_subscribed_game
+from db.user.db_user import is_user_subscribed_game, subscribe_to_game
 
 from keyboards.game_keyboard import game_keyboard
-from utils import create_game_text, convert_game_tuple_to_dict
+from utils import create_game_text, convert_game_tuple_to_dict, parse_query_data
 
 
 def return_game(update, context):
@@ -46,5 +46,22 @@ def return_game(update, context):
 def inline_button_pressed(update, context):
     query = update.callback_query
     query.answer()
+    
+
+    dict_query_data = parse_query_data(query_data=query.data)
+    if dict_query_data['type'] == 'subs':
+        print('type == subs')
+        if dict_query_data['subscription'] == True:
+            print('subs == True')
+            # unsubscribe func
+            # FIXME:
+        else:
+            # subscribe func
+            subscribe_to_game(chat_id=update.effective_chat.id,
+                              game_id=dict_query_data['game_id'])
+            print('subs == False')
+        
+
+
 
     query.edit_message_caption(caption=f"Selected option: {query.data}")

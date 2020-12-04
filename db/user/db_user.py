@@ -23,3 +23,15 @@ def is_user_subscribed_game(chat_id, game_id):
     data = (str(chat_id), game_id)
     subscription = execute_sql_with_data(sql, data)
     return subscription
+
+
+def subscribe_to_game(chat_id, game_id):
+    '''subscribe user to a game'''
+    sql = '''INSERT INTO user_games (
+        user_id, game_id, game_price, game_plus_price)
+        VALUES (%s, %s, %s, %s)'''
+    
+    data = (user_id, game_id, game_price, game_plus_price)
+
+    execute_sql_with_data(sql, data)
+    

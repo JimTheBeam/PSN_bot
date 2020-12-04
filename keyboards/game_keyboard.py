@@ -1,6 +1,5 @@
-from telegram import (InlineKeyboardButton, InlineKeyboardMarkup,
-                     ReplyKeyboardMarkup, ReplyKeyboardRemove)
-
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup
+                     
 
 def utf8len(string):
     ''':string: str

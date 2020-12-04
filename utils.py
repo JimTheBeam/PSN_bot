@@ -65,3 +65,15 @@ def create_game_text(game: dict):
     return game_text
 
 
+def parse_query_data(query_data:str):
+    '''parse query data
+    :query_data: "type:subs,game_id:{game_id},subscription:{Boolean}"
+    :return: dict of query_data'''
+    query_data_type = query_data.split('type:')[1].split(',')[0]
+
+    if query_data_type == 'subs':
+        game_id = query_data.split('game_id:')[1].split(',')[0]
+        subscription = query_data.split('subscription:')[1]
+        return {'type': 'subs', 'game_id': game_id, 'subscription':subscription}
+    return None
+    
