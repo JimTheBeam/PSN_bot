@@ -15,10 +15,21 @@ def insert_game_in_games(game):
 
 
 def find_game(game_name):
-    """find game in table games
-       return game data from db"""
+    '''find game in table games
+       return game data from db'''
     sql = '''SELECT game_id, title, current_price, plus_price, old_price, 
              image_link, discount_end_date, psprices_url FROM games WHERE LOWER(title)=LOWER(%s);'''
     data = (game_name,)
+    game_data = fetchone_sql_data(sql, data)
+    return game_data
+
+
+def find_game_price_by_id(game_id):
+    '''find game in table games using id
+       return game data from db'''
+
+    sql = '''SELECT game_id, title, current_price, plus_price, old_price
+             FROM games WHERE game_id = %s;'''
+    data = (game_id,)
     game_data = fetchone_sql_data(sql, data)
     return game_data

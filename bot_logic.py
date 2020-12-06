@@ -1,4 +1,4 @@
-from db.db_game import find_game as find_game_in_db
+from db.db_game import find_game as find_game_in_db, find_game_price_by_id
 from db.user.db_user import is_user_subscribed_game, subscribe_to_game
 
 from keyboards.game_keyboard import game_keyboard
@@ -26,11 +26,12 @@ def return_game(update, context):
         subscription = is_user_subscribed_game(
                         chat_id=update.effective_chat.id,
                         game_id=game['game_id'])
+        print(subscription)
         if subscription is None:
             subscription = False
         else:
             subscription = True
-
+        print('subscription', subscription)
         keyboard = game_keyboard(psn_link=game['psprices_url'], subscription=subscription,
                                  game_id=game['game_id'])
 
@@ -57,10 +58,14 @@ def inline_button_pressed(update, context):
             # FIXME:
         else:
             # subscribe func
-            subscribe_to_game(chat_id=update.effective_chat.id,
-                              game_id=dict_query_data['game_id'])
             print('subs == False')
-        
+
+            game_prices = find_game_price_by_id(dict_query_data['game_id'])
+            subscribe_to_game(chat_id=update.effective_chat.id,
+                              game_id=dict_query_data['game_id'],
+                              game_price=game_prices[2],
+                              game_plus_price=game_prices[3])
+            print('subscribed successfully')
 
 
 

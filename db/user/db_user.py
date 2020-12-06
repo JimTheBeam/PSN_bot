@@ -15,23 +15,22 @@ def insert_user_data(chat_id):
 def is_user_subscribed_game(chat_id, game_id):
     '''check if user subscribed to a game'''
 
-    sql = '''SELECT user_id FROM user_games 
-    WHERE user_id = (SELECT id FROM users WHERE chat_id = %s)
-    AND 
-    game_id = %s;
+    sql = '''SELECT chat_id FROM user_games 
+    WHERE chat_id = %s AND game_id = %s;
     '''
-    data = (str(chat_id), game_id)
+    data = (chat_id, game_id)
     subscription = execute_sql_with_data(sql, data)
     return subscription
 
 
-def subscribe_to_game(chat_id, game_id):
+def subscribe_to_game(chat_id, game_id, game_price, game_plus_price):
     '''subscribe user to a game'''
+
     sql = '''INSERT INTO user_games (
-        user_id, game_id, game_price, game_plus_price)
+        chat_id, game_id, game_price, game_plus_price)
         VALUES (%s, %s, %s, %s)'''
     
-    data = (user_id, game_id, game_price, game_plus_price)
+    data = (chat_id, game_id, game_price, game_plus_price)
 
     execute_sql_with_data(sql, data)
     
