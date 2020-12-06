@@ -1,3 +1,6 @@
+from db.user.db_user import is_user_subscribed_game
+
+
 def convert_game_tuple_to_dict(game):
     '''create and return a dict from tuple for a single game
     :game: [list] data from database about certain game:
@@ -22,7 +25,7 @@ def convert_game_tuple_to_dict(game):
     return dict_game
 
 
-def create_game_text(game: dict):
+def create_game_text(game: dict, currency='₽'):
     '''create game text for user using game data from database
     formats text as markdownV2 style:
             *bold text*
@@ -41,19 +44,19 @@ def create_game_text(game: dict):
     if current_game_price is None:
         current_game_price = ''
     else:
-        current_game_price = f'Current price: *_{current_game_price}_*\n'
+        current_game_price = f'Current price: *_{current_game_price}{currency}_*\n'
     
     plus_price = game['plus_price']
     if plus_price is None:
         plus_price = ''
     else:
-        plus_price = f'PS Plus price: *_{plus_price}_*\n'
+        plus_price = f'PS Plus price: *_{plus_price}{currency}_*\n'
     
     old_price = game['old_price']
     if old_price is None:
         old_price = ''
     else:
-        old_price = f'Old price: ~{old_price}~\n'
+        old_price = f'Old price: ~{old_price}{currency}~\n'
     
     discount_end_date = game['discount_end_date']
     if discount_end_date is None:
@@ -65,6 +68,7 @@ def create_game_text(game: dict):
     return game_text
 
 
+# TODO: доработать функцию. нужно чтобы она парсила остальные случаи, когда тип не subs!
 def parse_query_data(query_data:str):
     '''parse query data
     :query_data: "type:subs,game_id:{game_id},subscription:{Boolean}"
@@ -77,3 +81,15 @@ def parse_query_data(query_data:str):
         return {'type': 'subs', 'game_id': game_id, 'subscription':subscription}
     return None
     
+
+def get_subscription_status(chat_id, game_id):
+    '''check if user subscribed to a game
+    :return: True if subscribed else False
+    '''
+    subscription = is_user_subscribed_game(
+                                chat_id=chat_id,
+                                game_id=game_id)
+    if subscription is None:
+        return False
+    else:
+        return True

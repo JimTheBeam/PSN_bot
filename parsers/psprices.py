@@ -5,10 +5,16 @@ from time import sleep
 
 #FIXME: I think that more elegant solution exists
 import sys
-sys.path.append('..')
-from PSN_bot.config import Config
+import os
+path_to_parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
+sys.path.append(path_to_parent_dir)
 
-from utils import get_html, get_content, get_pages_count
+
+# import sys
+# sys.path.append('..')
+from config import Config
+
+from utils import get_html, get_content, get_pages_count, insert_games_in_db
 
 #TODO: logging!!!
 
@@ -23,17 +29,16 @@ def parse_main_page(url, platform='PS4'):
     html = get_html(url=url, headers=HEADERS, params={'platform': platform})
     if html.status_code == 200:
         pages = get_pages_count(html.text)
-        games = []
         for page in range(1, pages + 1):
             print(f'Parsing page {page} from {pages}.....')
 
             html = get_html(url=url, headers=HEADERS, params={'platform': platform,'page': page})
-            games.extend(get_content(html.text))
+            games_on_page = get_content(html.text)
             # sleep()
-            # TODO: save in db
-        print(len(games))
+            # save in db
+            insert_games_in_db(games_on_page)
     else:
-        print('Error')
+        print('Error status code is:', html.status_code)
     
 if __name__ == "__main__":
     parse_main_page(url=GAMES_URL, platform='PS4')

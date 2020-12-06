@@ -19,7 +19,7 @@ def is_user_subscribed_game(chat_id, game_id):
     WHERE chat_id = %s AND game_id = %s;
     '''
     data = (chat_id, game_id)
-    subscription = execute_sql_with_data(sql, data)
+    subscription = fetchone_sql_data(sql, data)
     return subscription
 
 

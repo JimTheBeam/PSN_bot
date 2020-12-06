@@ -2,7 +2,7 @@ from bs4 import BeautifulSoup
 import logging
 import requests
 
-from db.work_with_db import insert_game_in_games
+from db.db_game import insert_game_in_games
 from config import Config
 
 def get_html(url, headers=None, params=None):
@@ -11,38 +11,46 @@ def get_html(url, headers=None, params=None):
 
 
 def get_current_price(item):
-    """get current price from part of html document
-    return None if not found"""
+    '''get current price from part of html document
+    return None if not found'''
     price_tag = item.find('span', class_='content__game_card__price__current')
     if price_tag is None:
         return None
     else:
-        return price_tag.get_text().replace('\xa0', '')
+        current_price = price_tag.get_text().replace('\xa0', '').replace('₽', '')
+        if current_price == 'Бесплатно':
+            current_price = -1
+        return int(current_price)
 
 
 def get_plus_price(item):
-    """get ps plus price from part of html document
-    return None if not found"""
+    '''get ps plus price from part of html document
+    return None if not found'''
     plus_price_tag = item.find('span', class_='content__game_card__price_plus')
     if plus_price_tag is None:
         return None
     else:
-        return plus_price_tag.get_text().strip().replace('\xa0', '')
+        plus_price = plus_price_tag.get_text().strip().replace('\xa0', '').replace('₽', '')
+        if plus_price == 'Бесплатно':
+            plus_price = -1
+        return int(plus_price)
 
 
 def get_old_price(item):
-    """get old price (if the game has a discount) from part of html document
-    return None if not found"""
+    '''get old price (if the game has a discount) from part of html document
+    return None if not found'''
     old_price_tag = item.find('span', class_='old_price')
     if old_price_tag is None:
         return None
     else:
-        return old_price_tag.get_text().replace('\xa0', '')
+        old_price = old_price_tag.get_text().replace('\xa0', '').replace('₽', '')
+        return int(old_price)
 
 
+# TODO: ПЕРЕДЕЛАТЬ ЭТО ИЗ СТРОКИ В НОРМ ДАТУ!!!!
 def get_discount_end_date(item):
-    """finds discount end date(if the game has a discount) from part of html document
-    return None if not found"""
+    '''finds discount end date(if the game has a discount) from part of html document
+    return None if not found'''
     end_date_tag = item.find('span', class_='content__game_card__end_date')
     if end_date_tag is None:
         return None
@@ -51,15 +59,15 @@ def get_discount_end_date(item):
 
 
 def get_psprices_link(item):
-    """finds link for psprices page from part of html document
-    return None if not found"""
+    '''finds link for psprices page from part of html document
+    return None if not found'''
     relative_link = item.find('a', class_='content__game_card__cover').get('href')
     abs_link = Config.ABS_URL + relative_link
     return abs_link
 
 
 def get_pages_count(html):
-    """finds last page number[int] from first page and return its"""
+    '''finds last page number[int] from first page and return its'''
     soup = BeautifulSoup(html, 'html.parser')
     pagination = soup.find('ul', class_='pagination')
     last_page_link = pagination.find('li', class_='last').find('a').get('href')
@@ -82,9 +90,10 @@ def get_content(html):
             'psprices_url': get_psprices_link(item)
         }
         games.append(game)
-
-        # FIXME: вынести сохранение в ДБ отдельно
-        # save game to db:
-        insert_game_in_games(game)
     return games
 
+
+def insert_games_in_db(games):
+    '''insert a single game in database'''
+    for game in games:
+        insert_game_in_games(game)

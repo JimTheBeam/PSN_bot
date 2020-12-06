@@ -20,7 +20,7 @@ def subs_callback_data(game_id, subscription):
     return data
 
 
-def subscription_button(game_id, subscription):
+def make_subscription_button(game_id, subscription):
     '''create subscribe/unsubscribe button'''
     if not subscription:
         text = 'Subscribe to know when price went lower'
@@ -40,7 +40,7 @@ def game_keyboard(psn_link, subscription, game_id):
     '''
     psn_button = InlineKeyboardButton('PSN link', url=psn_link)
 
-    subs_button = subscription_button(game_id, subscription)
+    subs_button = make_subscription_button(game_id, subscription)
     
     keyboard = InlineKeyboardMarkup([[psn_button], [subs_button]])
     return keyboard
